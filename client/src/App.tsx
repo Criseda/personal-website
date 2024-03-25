@@ -1,13 +1,17 @@
-import { Button } from "@/components/ui/button"
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { AuroraBackgroundDemo } from "@/components/AuroraBackground";
+import { Navbar } from "@/components/Navbar";
 
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="text-3xl text-red-500 font-bold underline mb-5">
-        Hello world!
-      </h1>
-      <Button variant="destructive">Click me!</Button>
-    </div>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        {
+          <>
+            <Navbar />
+            <AuroraBackgroundDemo />
+          </>
+        }
+      </ThemeProvider>
   );
 }
 
