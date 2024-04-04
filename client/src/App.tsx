@@ -1,17 +1,24 @@
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { AuroraBackgroundDemo } from "@/components/AuroraBackground";
-import { Navbar } from "@/components/Navbar";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Home from "@/components/routes/Home";
 
 function App() {
   return (
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        {
-          <>
-            <Navbar />
-            <AuroraBackgroundDemo />
-          </>
-        }
-      </ThemeProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      {
+        <Router>
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        </Router>
+      }
+    </ThemeProvider>
   );
 }
 

@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { AuroraBackground } from "./ui/aurora-background";
+import { AuroraBackground } from "@/components/ui/aurora-background";
+import { GithubIcon, LinkedinIcon } from "./BrandIcons";
 
 export function AuroraBackgroundDemo() {
   return (
@@ -22,9 +23,10 @@ export function AuroraBackgroundDemo() {
         <div className="font-extralight text-base md:text-4xl dark:text-neutral-200 py-4">
           University of Manchester Undergraduate
         </div>
-        <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2">
-          About Me
-        </button>
+        <div className="flex justify-center space-x-20">
+          <GithubIcon />
+          <LinkedinIcon />
+        </div>
       </motion.div>
     </AuroraBackground>
   );
