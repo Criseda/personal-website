@@ -1,20 +1,15 @@
 import {
   NavigationMenu,
-  // NavigationMenuContent,
-  // NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  // NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-  // NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { MyAvatar } from "@/components/MyAvatar";
 
 export function Navbar() {
   return (
-    // <div className="grid grid-cols-3 gap-4">
     <div className="relative flex justify-between items-center">
       <div className="flex items-center">
         <figure className="px-3">
