@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Deploy to GitHub Pages? (yes/no)'     
+        required: true
+        default: 'no'
 
 jobs:
   build:
