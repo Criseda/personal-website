@@ -27,6 +27,10 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: client
+      
+      - name: Add 404.html
+        run: cp ./public/404.html ./client/dist/404/html
+        working-directory: client
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -34,3 +38,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./client/dist  # Path to your built files
           publish_branch: gh-pages
+          cname: criseda.me
