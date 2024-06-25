@@ -92,7 +92,7 @@ module.exports = {
     addVariablesForColors,
     function ({ addComponents }) {
       addComponents({
-        ".aurora-fade-to-black": {
+        ".aurora-fade-to-bg": {
           position: "relative",
           "&::after": {
             content: '""',

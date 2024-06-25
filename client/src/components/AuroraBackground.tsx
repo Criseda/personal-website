@@ -6,7 +6,7 @@ import { GithubIcon, LinkedinIcon } from "./BrandIcons";
 
 export function AuroraBackgroundHome() {
   return (
-    <div className="aurora-fade-to-black">
+    <div className="aurora-fade-to-bg">
       <AuroraBackground>
         <motion.div
           initial={{ opacity: 0.0, y: 40 }}
