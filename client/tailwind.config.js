@@ -1,16 +1,16 @@
 const {
   default: flattenColorPalette,
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
 } = require("tailwindcss/lib/util/flattenColorPalette");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "class",
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -87,16 +87,35 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), addVariablesForColors],
-}
-
+  plugins: [
+    require("tailwindcss-animate"),
+    addVariablesForColors,
+    function ({ addComponents }) {
+      addComponents({
+        ".aurora-fade-to-black": {
+          position: "relative",
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            bottom: "0",
+            left: "0",
+            width: "100%",
+            height: "50%", // Adjust the height to control the fade effect area
+            backgroundImage: "linear-gradient(to bottom, transparent, hsl(var(--background)))",
+            pointerEvents: "none",
+          },
+        },
+      });
+    },
+  ],
+};
 
 function addVariablesForColors({ addBase, theme }) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
- 
+
   addBase({
     ":root": newVars,
   });
