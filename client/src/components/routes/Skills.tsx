@@ -1,7 +1,9 @@
 export default function Skills() {
     return (
-        <div>
-        <h1>Skills</h1>
+        <div className="relative flex flex-col gap-4 items-center justify-center px-4">
+          <div className="text-2xl md:text-5xl font-bold dark:text-white text-left">
+            Skills
+          </div>
         </div>
     );
 }
