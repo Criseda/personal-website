@@ -10,10 +10,12 @@ export default function Home() {
     <>
       <Navbar />
       <AuroraBackgroundHome />
-      <About />
-      <Projects />
-      <Skills />
-      <Contact />
+      <div className="relative flex flex-col gap-10 md:gap-20">
+        <About />
+        <Projects />
+        <Skills />
+        <Contact />
+      </div>
     </>
   );
 }

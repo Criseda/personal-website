@@ -11,8 +11,8 @@ import { MyAvatar } from "@/components/MyAvatar";
 export function Navbar() {
   return (
     <div className="relative flex justify-between items-center">
-      <div className="flex items-center">
-        <figure className="px-3">
+      <div className="relative flex items-center">
+        <figure className="hidden md:flex md:px-3 px-2">
           <MyAvatar />
         </figure>
         <div className="hidden md:flex">
@@ -21,44 +21,44 @@ export function Navbar() {
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              className={navigationMenuTriggerStyle()}
-              href="/about"
-            >
-              About
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              className={navigationMenuTriggerStyle()}
-              href="/projects"
-            >
-              Projects
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              className={navigationMenuTriggerStyle()}
-              href="/skills"
-            >
-              Skills
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              className={navigationMenuTriggerStyle()}
-              href="/contacts"
-            >
-              Contact
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                href="/about"
+              >
+                About
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                href="/projects"
+              >
+                Projects
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                href="/skills"
+              >
+                Skills
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                href="/contacts"
+              >
+                Contact
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
-      
-      <div className="p-2 pr-3">
+
+      <div className="relative flex p-2 md:pr-4 pr-2">
         <DarkModeToggle />
       </div>
     </div>
