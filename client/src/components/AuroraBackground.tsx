@@ -1,5 +1,3 @@
-"use client";
-
 import { motion } from "framer-motion";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
