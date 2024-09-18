@@ -28,6 +28,10 @@ export function AuroraBackgroundDemo() {
           <LinkedinIcon />
         </div>
       </motion.div>
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-xs text-center p-2 dark:text-white">
+        The website is currently migrating to a new host. Some features may be
+        unavailable.
+      </div>
     </AuroraBackground>
   );
 }
