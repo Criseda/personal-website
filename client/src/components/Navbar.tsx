@@ -25,7 +25,7 @@ export function Navbar() {
           <NavigationMenuItem>
             <NavigationMenuLink
               className={navigationMenuTriggerStyle()}
-              href="/about"
+              href="/"
             >
               About
             </NavigationMenuLink>
@@ -33,7 +33,7 @@ export function Navbar() {
           <NavigationMenuItem>
             <NavigationMenuLink
               className={navigationMenuTriggerStyle()}
-              href="/projects"
+              href="/"
             >
               Projects
             </NavigationMenuLink>
@@ -41,7 +41,7 @@ export function Navbar() {
           <NavigationMenuItem>
             <NavigationMenuLink
               className={navigationMenuTriggerStyle()}
-              href="/skills"
+              href="/"
             >
               Skills
             </NavigationMenuLink>
@@ -49,7 +49,7 @@ export function Navbar() {
           <NavigationMenuItem>
             <NavigationMenuLink
               className={navigationMenuTriggerStyle()}
-              href="/contacts"
+              href="/"
             >
               Contact
             </NavigationMenuLink>
