@@ -16,7 +16,7 @@ export function Navbar() {
           <MyAvatar />
         </figure>
         <div className="hidden md:flex">
-          <h1 className="text-base font-semibold">Cristian Preda</h1>
+          <h1 className="text-base font-semibold">Laurențiu Cristian Preda</h1>
         </div>
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2">
