@@ -16,3 +16,4 @@
 - Added .htaccess for client side routing.
 - Updated index.html with more metadata to improve SEO.
 - Attempted to make AuroraBackground less resource intensive, as it was running laggy on phones and other lowend devices.
+- Added NotFound page
