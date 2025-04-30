@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { AuroraBackground } from "@/components/ui/aurora-background";
-import { GithubIcon, LinkedinIcon } from "./BrandIcons";
+import { GithubIcon, LinkedinIcon, SpotifyIcon } from "./BrandIcons";
 
 export function HomeContent() {
   return (
@@ -26,12 +26,9 @@ export function HomeContent() {
         <div className="flex justify-center space-x-20">
           <GithubIcon />
           <LinkedinIcon />
+          <SpotifyIcon />
         </div>
       </motion.div>
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-xs text-center p-2 dark:text-white">
-        The website is currently migrating to a new host. Some features may be
-        unavailable.
-      </div>
     </AuroraBackground>
   );
 }

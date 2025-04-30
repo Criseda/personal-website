@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faLinkedin, faSpotify } from "@fortawesome/free-brands-svg-icons";
 
 export function GithubIcon() {
   return (
@@ -26,6 +26,22 @@ export function LinkedinIcon() {
     >
       <FontAwesomeIcon
         icon={faLinkedin}
+        size="3x"
+        className="text-gray-900 dark:text-white"
+      />
+    </a>
+  );
+}
+
+export function SpotifyIcon() {
+  return (
+    <a
+      href="https://open.spotify.com/artist/0iDYp6gsCMo3VhXo8tQMsY?si=vLHxgyo9RpyPkPTojeYq9Q"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <FontAwesomeIcon
+        icon={faSpotify}
         size="3x"
         className="text-gray-900 dark:text-white"
       />
