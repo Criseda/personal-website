@@ -1,9 +1,9 @@
 import {
   NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
+  // NavigationMenuItem,
+  // NavigationMenuLink,
+  // NavigationMenuList,
+  // navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { MyAvatar } from "@/components/MyAvatar";
@@ -21,7 +21,7 @@ export function Navbar() {
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <NavigationMenu>
-        <NavigationMenuList>
+        {/* <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuLink
               className={navigationMenuTriggerStyle()}
@@ -54,7 +54,7 @@ export function Navbar() {
               Contact
             </NavigationMenuLink>
           </NavigationMenuItem>
-        </NavigationMenuList>
+        </NavigationMenuList> */}
       </NavigationMenu>
       </div>
       
