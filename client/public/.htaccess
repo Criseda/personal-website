@@ -5,6 +5,9 @@
   RewriteCond %{HTTP_HOST} ^www\.criseda\.com [NC]
   RewriteRule ^(.*)$ https://criseda.com/$1 [L,R=301]
   
+  # Explicitly redirect /index.html to root
+  RewriteRule ^index\.html$ / [R=301,L]
+  
   # SPA routing for React Router
   RewriteBase /
   RewriteRule ^index\.html$ - [L]
