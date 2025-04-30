@@ -1,11 +1,11 @@
 import { Navbar } from "@/components/Navbar";
-import { AuroraBackgroundDemo } from "@/components/AuroraBackground";
+import { HomeContent } from "@/components/HomeContent";
 
 export default function Home() {
   return (
     <>
       <Navbar />
-      <AuroraBackgroundDemo />
+      <HomeContent />
     </>
   );
 }
