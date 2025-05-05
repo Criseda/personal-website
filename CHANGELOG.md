@@ -17,3 +17,7 @@
 - Updated index.html with more metadata to improve SEO.
 - Attempted to make AuroraBackground less resource intensive, as it was running laggy on phones and other lowend devices.
 - Added NotFound page
+
+## 5th May 2025: Merge develope into main
+
+- Added romanian language support to the website
