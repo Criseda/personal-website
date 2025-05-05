@@ -11,6 +11,11 @@
     content="Laurentiu Cristian Preda's Personal Website. Here you can see my journey, interests and accomplishments" />
   <link rel="canonical" href="https://criseda.com/" />
 
+  <!-- hreflang tags -->
+  <link rel="alternate" hreflang="en" href="https://criseda.com/" />
+  <link rel="alternate" hreflang="ro" href="https://criseda.com/ro/" />
+  <link rel="alternate" hreflang="x-default" href="https://criseda.com/" />
+
   <!-- Open Graph -->
   <meta property="og:title" content="Criseda Personal Website" />
   <meta property="og:description"
@@ -28,19 +33,50 @@
 
   <!-- Schema.org structured data -->
   <script type="application/ld+json">
-          {
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "Laurentiu Cristian Preda",
-            "url": "https://criseda.com",
-            "sameAs": [
-              "https://github.com/Criseda",
-              "https://linkedin.com/in/criseda"
-            ],
-            "jobTitle": "University of Manchester Undergraduate",
-            "alumniOf": "University of Manchester"
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "url": "https://criseda.com/",
+          "name": "Laurentiu Cristian Preda Personal Website",
+          "description": "Laurentiu Cristian Preda's Personal Website. Here you can see my journey, interests and accomplishments.",
+          "inLanguage": "en",
+          "availableLanguage": ["en", "ro"],
+          "potentialAction": {
+            "@type": "ViewAction",
+            "target": [
+              {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://criseda.com/ro/",
+                "inLanguage": "ro"
+              }
+            ]
           }
-  </script>
+        },
+        {
+          "@type": "Person",
+          "name": "Laurentiu Cristian Preda",
+          "url": "https://criseda.com",
+          "sameAs": [
+            "https://github.com/Criseda",
+            "https://linkedin.com/in/criseda",
+            "https://open.spotify.com/artist/0iDYp6gsCMo3VhXo8tQMsY?si=2x9zJkGxSFy2_-dnPCISJg",
+            "https://www.instagram.com/crisedaofficial",
+            "https://x.com/Crisedaofficial",
+            "https://soundcloud.com/itsmecriseda",
+            "https://www.shazam.com/artist/criseda/1454647975",
+            "https://www.deezer.com/en/artist/58557912",
+            "https://www.boomplay.com/artists/72123251",
+            "https://music.apple.com/us/artist/criseda/1454647975"
+          ],
+          "jobTitle": "University of Manchester Undergraduate",
+          "alumniOf": "University of Manchester",
+          "knowsLanguage": ["en", "ro"]
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>
