@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { LanguageProvider } from "@/contexts/LanguageProvider";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,14 +11,21 @@ import NotFound from "@/components/routes/NotFound";
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      {
-        <Router>
+      <Router>
+        <LanguageProvider>
           <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="*" element={<NotFound/>} />
+            {/* English routes */}
+            <Route path="/" element={<Home />} />
+            
+            {/* Romanian routes */}
+            <Route path="/ro" element={<Home />} />
+            <Route path="/ro/*" element={<NotFound />} />
+            
+            {/* Not found route */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
-        </Router>
-      }
+        </LanguageProvider>
+      </Router>
     </ThemeProvider>
   );
 }

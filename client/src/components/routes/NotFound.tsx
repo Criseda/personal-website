@@ -2,8 +2,14 @@ import { motion } from "framer-motion";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function NotFound() {
+  const { t, language } = useLanguage();
+  
+  // Determine home path based on language
+  const homePath = language === 'en' ? '/' : '/ro';
+
   return (
     <>
       <Navbar />
@@ -22,16 +28,16 @@ export default function NotFound() {
             404
           </h1>
           <h2 className="font-extralight text-base md:text-4xl dark:text-neutral-200 py-4 text-center">
-            Page Not Found
+            {t('notFound')}
           </h2>
           <p className="text-center dark:text-neutral-300 max-w-md">
-            The page you're looking for doesn't exist or has been moved.
+            {t('notFoundDesc')}
           </p>
           <Link 
-            to="/" 
+            to={homePath}
             className="mt-6 px-6 py-2 rounded-full bg-neutral-800 text-white hover:bg-neutral-700 transition-colors"
           >
-            Return Home
+            {t('returnHome')}
           </Link>
         </motion.div>
       </AuroraBackground>

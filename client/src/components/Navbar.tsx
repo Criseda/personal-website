@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { MyAvatar } from "@/components/MyAvatar";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 export function Navbar() {
   return (
@@ -58,7 +59,8 @@ export function Navbar() {
       </NavigationMenu>
       </div>
       
-      <div className="p-2 pr-3">
+      <div className="p-2 pr-3 flex items-center space-x-4">
+        <LanguageSelector />
         <DarkModeToggle />
       </div>
     </div>
