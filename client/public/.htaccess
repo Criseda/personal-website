@@ -1,12 +1,9 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Redirect HTTP to HTTPS
-  RewriteCond %{HTTPS} off
-  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-  # Redirect www to non-www
-  RewriteCond %{HTTP_HOST} ^www\.criseda\.com [NC]
+  # Redirect everything (HTTP and/or www) to HTTPS non-www
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} ^www\.criseda\.com$ [NC]
   RewriteRule ^(.*)$ https://criseda.com/$1 [L,R=301]
 
   # Explicitly redirect /index.html to root
