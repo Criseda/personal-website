@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/useAuth';
 import { AuroraBackground } from '@/components/ui/aurora-background';
 import { Navbar } from '@/components/Navbar';
@@ -106,26 +107,74 @@ const LofiLanding: React.FC = () => {
         </div>
       </div>
       <div className="flex-1 flex items-center justify-center relative z-10 px-4">
-          <div className="flex flex-col items-center justify-center gap-8">
-          <h1 className="text-5xl md:text-7xl font-bold text-center text-white drop-shadow-lg">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 0.2,
+            duration: 0.8,
+            ease: 'easeInOut',
+          }}
+          className="flex flex-col items-center justify-center gap-8"
+        >
+          {/* Title */}
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{
+              delay: 0.3,
+              duration: 0.8,
+              ease: 'easeInOut',
+            }}
+            className="text-5xl md:text-7xl font-bold text-center text-white drop-shadow-lg"
+          >
             Lofi Station
-          </h1>
-          
-          <p className="text-lg md:text-xl text-gray-300 text-center max-w-md">
+          </motion.h1>
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: 0.5,
+              duration: 0.8,
+              ease: 'easeInOut',
+            }}
+            className="text-lg md:text-xl text-gray-300 text-center max-w-md"
+          >
             Generate ambient lofi music tailored to your mood and environment
-          </p>
+          </motion.p>
 
-          <div className="mt-8">
+          {/* Google Sign-In Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              delay: 0.7,
+              duration: 0.8,
+              ease: 'easeInOut',
+            }}
+            className="mt-8"
+          >
             <div ref={googleButtonRef} />
-          </div>
+          </motion.div>
 
+          {/* Error Message */}
           {error && (
-            <div className="text-red-400 text-center text-sm mt-4">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.3,
+                ease: 'easeInOut',
+              }}
+              className="text-red-400 text-center text-sm mt-4"
+            >
               Error: {error}
-            </div>
+            </motion.div>
           )}
-          </div>
-        </div>
+        </motion.div>
+      </div>
     </div>
   );
 };
