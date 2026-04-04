@@ -131,7 +131,11 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ jobId, format = 'mp3' }) => {
   }
 
   return (
-    <div className="bg-black/40 backdrop-blur border border-purple-500/30 rounded-lg p-6 space-y-4">
+    <div className={`bg-black/40 backdrop-blur border rounded-lg p-6 space-y-4 transition-all duration-300 ${
+      isPlaying 
+        ? 'border-cyan-500/50 bg-gradient-to-br from-black/50 via-cyan-900/10 to-black/50 shadow-lg shadow-cyan-500/20' 
+        : 'border-purple-500/30'
+    }`}>
       {/* Hidden audio element */}
       {audioUrl && (
         <audio
@@ -143,11 +147,30 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ jobId, format = 'mp3' }) => {
         />
       )}
 
+      {/* Animated equalizer bars - visible when playing */}
+      <div className={`flex items-end justify-center gap-1 h-12 mb-2 transition-opacity duration-300 ${
+        isPlaying ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}>
+        {Array.from({ length: 12 }).map((_, i) => (
+          <div
+            key={i}
+            className="flex-1 bg-gradient-to-t from-cyan-500 to-purple-400 rounded-sm"
+            style={{
+              height: isPlaying ? `${Math.random() * 100}%` : '0%',
+              animation: isPlaying ? `equalizer 0.6s ease-in-out ${i * 0.08}s infinite` : 'none',
+              minHeight: '4px',
+            }}
+          />
+        ))}
+      </div>
+
       {/* Now Playing */}
       <div>
         <p className="text-xs text-gray-400 mb-1">Now Playing</p>
-        <p className="text-white font-semibold text-sm">
-          🎵 Generated Lofi Track ({format.toUpperCase()})
+        <p className={`font-semibold text-sm transition-colors ${
+          isPlaying ? 'text-cyan-300' : 'text-white'
+        }`}>
+          {isPlaying ? '✨ ' : '🎵 '}Generated Lofi Track ({format.toUpperCase()})
         </p>
       </div>
 
@@ -162,13 +185,22 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ jobId, format = 'mp3' }) => {
 
       {/* Player Controls */}
       <div className="flex items-center justify-center gap-3">
-        {/* Play/Pause Button */}
-        <button
-          onClick={togglePlay}
-          className="w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 flex items-center justify-center text-white text-xl transition-all hover:scale-110 active:scale-95"
-        >
-          {isPlaying ? '⏸' : '▶'}
-        </button>
+        {/* Play/Pause Button with glow */}
+        <div className="relative w-fit">
+          {isPlaying && (
+            <div className="absolute inset-0 w-14 h-14 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full animate-pulse opacity-50 blur-md"></div>
+          )}
+          <button
+            onClick={togglePlay}
+            className={`relative w-14 h-14 rounded-full flex items-center justify-center text-white text-xl transition-all hover:scale-110 active:scale-95 font-semibold ${
+              isPlaying
+                ? 'bg-gradient-to-r from-cyan-500 to-purple-500 shadow-lg shadow-cyan-500/50'
+                : 'bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500'
+            }`}
+          >
+            {isPlaying ? '⏸' : '▶'}
+          </button>
+        </div>
 
         {/* Time Display */}
         <div className="flex-1">
@@ -179,9 +211,11 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ jobId, format = 'mp3' }) => {
             max={duration || 0}
             value={currentTime}
             onChange={handleSeek}
-            className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500"
+            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500 transition-all"
             style={{
-              background: `linear-gradient(to right, #a855f7 0%, #a855f7 ${
+              background: `linear-gradient(to right, ${
+                isPlaying ? '#06b6d4' : '#a855f7'
+              } 0%, ${isPlaying ? '#06b6d4' : '#a855f7'} ${
                 (currentTime / duration) * 100
               }%, #374151 ${(currentTime / duration) * 100}%, #374151 100%)`,
             }}
@@ -196,9 +230,27 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ jobId, format = 'mp3' }) => {
       </div>
 
       {/* Additional Info */}
-      <div className="text-xs text-gray-400 text-center pt-2 border-t border-purple-500/20">
+      <div className={`text-xs text-center pt-2 border-t transition-colors ${
+        isPlaying 
+          ? 'border-cyan-500/30 text-cyan-400' 
+          : 'border-purple-500/20 text-gray-400'
+      }`}>
         {isPlaying ? '🎶 Now Playing' : 'Click play to listen'}
       </div>
+
+      {/* Styles for equalizer animation */}
+      <style>{`
+        @keyframes equalizer {
+          0%, 100% {
+            height: 20%;
+            opacity: 0.6;
+          }
+          50% {
+            height: 100%;
+            opacity: 1;
+          }
+        }
+      `}</style>
     </div>
   );
 };

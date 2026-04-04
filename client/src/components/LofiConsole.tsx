@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuth } from '@/contexts/useAuth';
 import { useMusicGenerator } from '@/contexts/useMusicGenerator';
 import { AuroraBackground } from '@/components/ui/aurora-background';
@@ -6,12 +6,12 @@ import { Navbar } from '@/components/Navbar';
 import ManualModePanel from '@/components/ManualModePanel';
 import AutoModePanel from '@/components/AutoModePanel';
 import GenerationLogsPanel from '@/components/GenerationLogsPanel';
+import GenerationVisualization from '@/components/GenerationVisualization';
 import ResultsPanel from '@/components/ResultsPanel';
 
 const LofiConsole: React.FC = () => {
   const { logout } = useAuth();
   const { mode, setMode, status, isGenerating } = useMusicGenerator();
-  const [showLogs, setShowLogs] = useState(true);
 
   return (
     <AuroraBackground className="relative">
@@ -31,84 +31,120 @@ const LofiConsole: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 p-4 md:p-6 w-full max-w-7xl mx-auto relative z-10">
-        {/* Control Panel */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Mode Toggle */}
-          <div className="bg-black/40 backdrop-blur border border-purple-500/30 rounded-lg p-6">
-            <h2 className="text-lg font-semibold mb-4 text-white">Generation Mode</h2>
-            <div className="flex gap-4">
-              <button
-                onClick={() => setMode('manual')}
-                className={`flex-1 py-2 px-4 rounded-lg transition-all ${
-                  mode === 'manual'
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-700/50 text-gray-300 hover:bg-gray-700'
-                }`}
-                disabled={isGenerating}
-              >
-                Manual Control
-              </button>
-              <button
-                onClick={() => setMode('auto')}
-                className={`flex-1 py-2 px-4 rounded-lg transition-all ${
-                  mode === 'auto'
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-700/50 text-gray-300 hover:bg-gray-700'
-                }`}
-                disabled={isGenerating}
-              >
-                Auto Vibe
-              </button>
-            </div>
-          </div>
-
-          {/* Control Panels */}
-          {mode === 'manual' ? (
-            <ManualModePanel />
-          ) : (
-            <AutoModePanel />
-          )}
-
-          {/* Logs Toggle and Display */}
-          {(status === 'generating' || status === 'error' || status === 'success') && (
-            <div className="bg-black/40 backdrop-blur border border-purple-500/30 rounded-lg p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-white">Generation Log</h2>
-                <button
-                  onClick={() => setShowLogs(!showLogs)}
-                  className="text-sm text-purple-400 hover:text-purple-300"
-                >
-                  {showLogs ? 'Hide' : 'Show'}
-                </button>
+        {isGenerating ? (
+          /* Generation View - Full viewport centered */
+          <div className="fixed inset-0 top-0 flex items-center justify-center z-10 pointer-events-none">
+            <div className="w-full max-w-6xl px-4 md:px-6 py-4 md:py-6 pointer-events-auto animate-fade-in">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                {/* Visualization */}
+                <div className="animate-slide-up">
+                  <GenerationVisualization />
+                </div>
+                {/* Logs */}
+                <div className="animate-slide-up" style={{ animationDelay: '100ms' }}>
+                  <div className="h-96 bg-black/40 backdrop-blur border border-purple-500/30 rounded-lg overflow-hidden">
+                    <GenerationLogsPanel />
+                  </div>
+                </div>
               </div>
-              {showLogs && <GenerationLogsPanel />}
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          /* Control Panel - Normal layout when not generating */
+          <div className="flex-1 flex flex-col items-center justify-center w-full relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 p-4 md:p-6 w-full max-w-7xl mx-auto">
+              <div className="lg:col-span-2 space-y-6 animate-fade-in">
+                {/* Mode Toggle */}
+                <div className="bg-black/40 backdrop-blur border border-purple-500/30 rounded-lg p-6">
+                  <h2 className="text-base font-semibold mb-4 text-white">Mode</h2>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => setMode('manual')}
+                      className={`flex-1 py-2 px-3 rounded-lg transition-all text-sm ${
+                        mode === 'manual'
+                          ? 'bg-purple-600 text-white'
+                          : 'bg-gray-700/50 text-gray-300 hover:bg-gray-700'
+                      }`}
+                      disabled={isGenerating}
+                    >
+                      Manual
+                    </button>
+                    <button
+                      onClick={() => setMode('auto')}
+                      className={`flex-1 py-2 px-3 rounded-lg transition-all text-sm ${
+                        mode === 'auto'
+                          ? 'bg-purple-600 text-white'
+                          : 'bg-gray-700/50 text-gray-300 hover:bg-gray-700'
+                      }`}
+                      disabled={isGenerating}
+                    >
+                      Auto Vibe
+                    </button>
+                  </div>
+                </div>
 
-        {/* Results Panel */}
-        {status === 'success' && (
-          <div className="lg:col-span-1">
-            <ResultsPanel />
+                {/* Control Panels */}
+                {mode === 'manual' ? (
+                  <ManualModePanel />
+                ) : (
+                  <AutoModePanel />
+                )}
+              </div>
+
+              {/* Results Panel / Error Display */}
+              {status === 'success' && (
+                <div className="lg:col-span-1 animate-fade-in">
+                  <ResultsPanel />
+                </div>
+              )}
+
+              {status === 'error' && (
+                <div className="lg:col-span-1 animate-fade-in">
+                  <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-6">
+                    <h2 className="text-lg font-semibold text-red-400 mb-4">✗ Generation Failed</h2>
+                    <button
+                      onClick={() => window.location.reload()}
+                      className="w-full py-2 px-4 bg-red-600/50 hover:bg-red-600 rounded-lg transition-colors text-sm"
+                    >
+                      Retry
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
-        {/* Error Display */}
-        {status === 'error' && (
-          <div className="lg:col-span-1">
-            <div className="bg-red-900/20 border border-red-500/50 rounded-lg p-6">
-              <h2 className="text-lg font-semibold text-red-400 mb-4">Generation Failed</h2>
-              <button
-                onClick={() => window.location.reload()}
-                className="w-full py-2 px-4 bg-red-600/50 hover:bg-red-600 rounded-lg transition-colors"
-              >
-                Retry
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+        {/* Custom animations */}
+        <style>{`
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          
+          @keyframes slideUp {
+            from {
+              opacity: 0;
+              transform: translateY(10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          
+          .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+          }
+          
+          .animate-slide-up {
+            animation: slideUp 0.6s ease-out forwards;
+          }
+        `}</style>
       </div>
     </AuroraBackground>
   );

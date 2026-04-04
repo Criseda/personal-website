@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useMusicGenerator } from '@/contexts/useMusicGenerator';
-import { MultiStepLoader } from '@/components/ui/multi-step-loader';
 
 const AutoModePanel: React.FC = () => {
   const { startAutoGeneration, isGenerating } = useMusicGenerator();
@@ -47,13 +46,6 @@ const AutoModePanel: React.FC = () => {
     await startAutoGeneration(city);
   };
 
-  const loaderSteps = [
-    { text: 'Fetching weather data...' },
-    { text: 'Analyzing mood patterns...' },
-    { text: 'Generating adaptive composition...' },
-    { text: 'Finalizing synthesis...' },
-  ];
-
   return (
     <div className="bg-black/40 backdrop-blur border border-purple-500/30 rounded-lg p-6 space-y-6">
       <h2 className="text-lg font-semibold">Auto Vibe Generation</h2>
@@ -88,15 +80,8 @@ const AutoModePanel: React.FC = () => {
           <p className="text-sm text-red-400">{geoError}</p>
         )}
         {city && !geoError && (
-          <p className="text-sm text-green-400">Location: {city}</p>
+          <p className="text-sm text-green-400">✓ {city}</p>
         )}
-      </div>
-
-      {/* Description */}
-      <div className="p-4 bg-purple-900/20 border border-purple-500/30 rounded-lg">
-        <p className="text-sm text-gray-300">
-          Auto Vibe analyzes your location's weather and time of day to generate a personalized lofi composition. Allow location access for best results.
-        </p>
       </div>
 
       {/* Generate Button */}
@@ -109,18 +94,8 @@ const AutoModePanel: React.FC = () => {
             : 'bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500'
         }`}
       >
-        {isGenerating ? 'Generating...' : 'Launch Auto Vibe'}
+        {isGenerating ? '⏳ Generating...' : '▶ Launch Auto Vibe'}
       </button>
-
-      {/* Loading Steps */}
-      {isGenerating && (
-        <div className="mt-6 pt-6 border-t border-purple-500/30">
-          <MultiStepLoader
-            loadingStates={loaderSteps}
-            loading={isGenerating}
-          />
-        </div>
-      )}
     </div>
   );
 };

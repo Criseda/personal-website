@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useMusicGenerator } from '@/contexts/useMusicGenerator';
-import { MultiStepLoader } from '@/components/ui/multi-step-loader';
 
 const ManualModePanel: React.FC = () => {
   const { startManualGeneration, isGenerating } = useMusicGenerator();
@@ -11,13 +10,6 @@ const ManualModePanel: React.FC = () => {
   const handleGenerate = async () => {
     await startManualGeneration({ bpm, mood, gloom });
   };
-
-  const loaderSteps = [
-    { text: 'Initializing synthesizer...' },
-    { text: 'Generating melody patterns...' },
-    { text: 'Synthesizing audio...' },
-    { text: 'Finalizing mix...' },
-  ];
 
   return (
     <div className="bg-black/40 backdrop-blur border border-purple-500/30 rounded-lg p-6 space-y-6">
@@ -92,18 +84,8 @@ const ManualModePanel: React.FC = () => {
             : 'bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500'
         }`}
       >
-        {isGenerating ? 'Generating...' : 'Generate Music'}
+        {isGenerating ? '⏳ Generating...' : '▶ Generate Music'}
       </button>
-
-      {/* Loading Steps */}
-      {isGenerating && (
-        <div className="mt-6 pt-6 border-t border-purple-500/30">
-          <MultiStepLoader
-            loadingStates={loaderSteps}
-            loading={isGenerating}
-          />
-        </div>
-      )}
     </div>
   );
 };

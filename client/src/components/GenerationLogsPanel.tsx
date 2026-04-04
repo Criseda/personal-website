@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { useMusicGenerator } from '@/contexts/useMusicGenerator';
-import { TypewriterEffect } from '@/components/ui/typewriter-effect';
 
 const GenerationLogsPanel: React.FC = () => {
   const { logs } = useMusicGenerator();
@@ -16,20 +15,17 @@ const GenerationLogsPanel: React.FC = () => {
   return (
     <div
       ref={logsContainerRef}
-      className="bg-gray-900/50 border border-gray-700 rounded-lg p-4 h-48 overflow-y-auto font-mono text-xs text-green-400 space-y-1"
+      className="bg-gray-900/30 border border-gray-700/50 rounded-lg p-3 h-full overflow-y-auto font-mono text-xs text-green-400 space-y-0.5"
     >
       {logs.length === 0 ? (
-        <div className="text-gray-500">Waiting for generation to start...</div>
+        <div className="text-gray-600 text-center py-8">Waiting...</div>
       ) : (
-        <div className="space-y-1">
+        <div className="space-y-0.5">
           {logs.map((log) => (
-            <div key={log.id} className="text-green-400">
+            <div key={log.id} className="text-green-400 opacity-90 hover:opacity-100 transition-opacity">
               $ {log.message}
             </div>
           ))}
-          <div className="text-green-400">
-            $ <TypewriterEffect words={[{ text: logs[logs.length - 1]?.message || '' , className: 'text-green-400' }]} />
-          </div>
         </div>
       )}
     </div>
