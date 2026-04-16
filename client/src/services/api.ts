@@ -43,7 +43,7 @@ apiClient.interceptors.response.use(
         },
       });
     }
-    
+
     if (error.response?.status === 401) {
       // Token expired or invalid - clear it
       Cookies.remove(TOKEN_KEY);
@@ -58,19 +58,19 @@ apiClient.interceptors.response.use(
 export const api = {
   // Auth endpoints
   login: async (googleToken: string) => {
-    console.log('Sending to /auth/social:', { 
-      provider: 'google', 
-      token: googleToken.substring(0, 20) + '...' 
+    console.log('Sending to /auth/social:', {
+      provider: 'google',
+      token: googleToken.substring(0, 20) + '...'
     });
     try {
       // 1. Fixed: Added provider: 'google'
-      const response = await apiClient.post('/auth/social', { 
-        provider: 'google', 
-        token: googleToken 
+      const response = await apiClient.post('/auth/social', {
+        provider: 'google',
+        token: googleToken
       });
       // 2. Fixed: Destructured 'access_token' instead of 'jwt' to match backend
       const { access_token } = response.data;
-      
+
       if (access_token) {
         Cookies.set(TOKEN_KEY, access_token, { expires: 7 });
         localStorage.setItem(TOKEN_KEY, access_token);
@@ -134,11 +134,11 @@ export const api = {
       console.log(`Downloading ${format} for job ${jobId}`);
       console.log('API Base URL:', API_BASE_URL);
       console.log('Full download URL:', `${API_BASE_URL}/download/${jobId}/${format}`);
-      
+
       const response = await apiClient.get(`/download/${jobId}/${format}`, {
         responseType: 'blob',
       });
-      
+
       // Verify we got a blob with correct type
       console.log('Download response:', {
         status: response.status,
@@ -146,14 +146,14 @@ export const api = {
         blobSize: response.data.size,
         blobType: response.data.type,
       });
-      
+
       // Check if we got an error page instead of audio
       if (response.data.type === 'text/html' || response.data.type === 'text/plain') {
         const text = await response.data.text();
         console.error('Received HTML/text error instead of audio:', text);
         throw new Error(`Server returned error: ${text.substring(0, 100)}`);
       }
-      
+
       return response.data;
     } catch (error: any) {
       // Handle network errors specifically
@@ -167,7 +167,7 @@ export const api = {
           `Cannot reach backend at ${API_BASE_URL}. Make sure the server is running and CORS is enabled.`
         );
       }
-      
+
       console.error('Download error:', {
         status: error.response?.status,
         statusText: error.response?.statusText,
@@ -203,6 +203,37 @@ export const api = {
     } catch (error) {
       Cookies.remove(TOKEN_KEY);
       localStorage.removeItem(TOKEN_KEY);
+      throw error;
+    }
+  },
+
+  // Survey endpoints
+  getSurveyStatus: async () => {
+    try {
+      const response = await apiClient.get('/survey/status');
+      return response.data; // { has_completed: true/false }
+    } catch (error) {
+      console.error('Failed to get survey status', error);
+      throw error;
+    }
+  },
+
+  submitSurvey: async (payload: {
+    general_feedback: string;
+    ratings: Array<{
+      track_id: string;
+      category: string;
+      groove_score: number;
+      melodic_score: number;
+      sonic_score: number;
+      humanness_score: number;
+    }>;
+  }) => {
+    try {
+      const response = await apiClient.post('/survey/submit', payload);
+      return response.data;
+    } catch (error) {
+      console.error('Failed to submit survey', error);
       throw error;
     }
   },

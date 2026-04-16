@@ -47,13 +47,13 @@ const AutoModePanel: React.FC = () => {
   };
 
   return (
-    <div className="bg-black/40 backdrop-blur border border-purple-500/30 rounded-lg p-6 space-y-6">
-      <h2 className="text-lg font-semibold">Auto Vibe Generation</h2>
+    <div className="bg-white/40 dark:bg-black/40 backdrop-blur border border-purple-500/20 dark:border-purple-500/30 rounded-lg p-6 space-y-6">
+      <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Auto Vibe Generation</h2>
 
       {/* Location Selection */}
       <div className="space-y-3">
-        <label className="text-sm text-gray-300 block">Your Location</label>
-        
+        <label className="text-sm text-zinc-600 dark:text-gray-300 block">Your Location</label>
+
         <div className="flex gap-2">
           <input
             type="text"
@@ -61,16 +61,15 @@ const AutoModePanel: React.FC = () => {
             onChange={(e) => setCity(e.target.value)}
             placeholder="Enter city or auto-detect..."
             disabled={isGenerating || isLoadingLocation}
-            className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 px-3 py-2 bg-zinc-100 dark:bg-gray-700 border border-zinc-200 dark:border-gray-600 rounded-lg text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
           />
           <button
             onClick={fetchCityFromGeolocation}
             disabled={isGenerating || isLoadingLocation}
-            className={`px-4 py-2 rounded-lg transition-all ${
-              isGenerating || isLoadingLocation
-                ? 'bg-gray-600/50 cursor-not-allowed opacity-50'
-                : 'bg-gray-700 hover:bg-gray-600'
-            }`}
+            className={`px-4 py-2 rounded-lg transition-all ${isGenerating || isLoadingLocation
+                ? 'bg-zinc-200 dark:bg-gray-600/50 cursor-not-allowed opacity-50'
+                : 'bg-zinc-200 dark:bg-gray-700 hover:bg-zinc-300 dark:hover:bg-gray-600 text-zinc-700 dark:text-white border border-zinc-300 dark:border-none'
+              }`}
           >
             {isLoadingLocation ? '...' : '📍'}
           </button>
@@ -88,11 +87,10 @@ const AutoModePanel: React.FC = () => {
       <button
         onClick={handleAutoVibe}
         disabled={isGenerating || !city}
-        className={`w-full py-3 px-4 font-semibold rounded-lg transition-all ${
-          isGenerating || !city
+        className={`w-full py-3 px-4 font-semibold rounded-lg transition-all ${isGenerating || !city
             ? 'bg-purple-600/50 cursor-not-allowed opacity-75'
             : 'bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500'
-        }`}
+          }`}
       >
         {isGenerating ? '⏳ Generating...' : '▶ Launch Auto Vibe'}
       </button>

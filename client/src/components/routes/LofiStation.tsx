@@ -13,23 +13,25 @@ const LofiStation: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full h-screen flex items-center justify-center bg-black">
-        <AuroraBackground>
-          <div className="flex items-center justify-center">
-            <div className="text-white text-lg animate-pulse">Loading...</div>
-          </div>
-        </AuroraBackground>
+      <div className="w-full h-screen relative">
+        <AuroraBackground fixed />
+        <div className="flex items-center justify-center relative z-10 h-full">
+          <div className="text-white text-lg animate-pulse">Loading...</div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full min-h-screen bg-black">
-      {!isAuthenticated ? (
-        <LofiLanding />
-      ) : (
-        <LofiConsole />
-      )}
+    <div className="w-full min-h-screen relative">
+      <AuroraBackground fixed />
+      <div className="relative z-10">
+        {!isAuthenticated ? (
+          <LofiLanding />
+        ) : (
+          <LofiConsole />
+        )}
+      </div>
     </div>
   );
 };

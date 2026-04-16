@@ -49,13 +49,14 @@ export default function Projects() {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col relative">
-      <AuroraBackground className="absolute inset-0 z-0" />
-      <div className="w-full sticky top-0 z-50 border-b border-purple-500/40 backdrop-blur-md bg-black/40">
-        <div className="px-4 md:px-6 py-4">
-          <Navbar />
+    <div className="w-full min-h-screen relative">
+      <AuroraBackground fixed />
+      <div className="w-full min-h-screen flex flex-col relative z-10">
+        <div className="w-full sticky top-0 z-50 border-b border-purple-500/20 dark:border-purple-500/40 backdrop-blur-md bg-white/40 dark:bg-black/40">
+          <div className="px-4 md:px-6 py-4">
+            <Navbar />
+          </div>
         </div>
-      </div>
 
         {/* Content */}
         <div className="flex-1 flex flex-col items-center justify-center px-4 md:px-6 relative z-10 pt-8">
@@ -152,6 +153,7 @@ export default function Projects() {
             )}
           </motion.div>
         </div>
+      </div>
     </div>
   );
 }

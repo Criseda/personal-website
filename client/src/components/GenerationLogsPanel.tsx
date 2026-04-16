@@ -15,14 +15,14 @@ const GenerationLogsPanel: React.FC = () => {
   return (
     <div
       ref={logsContainerRef}
-      className="bg-gray-900/30 border border-gray-700/50 rounded-lg p-3 h-full overflow-y-auto font-mono text-xs text-green-400 space-y-0.5"
+      className="bg-zinc-50/80 dark:bg-gray-900/40 backdrop-blur-sm border border-zinc-200 dark:border-gray-700/50 rounded-lg p-3 h-full overflow-y-auto font-mono text-xs text-emerald-900 dark:text-green-400 space-y-0.5 shadow-inner"
     >
       {logs.length === 0 ? (
-        <div className="text-gray-600 text-center py-8">Waiting...</div>
+        <div className="text-zinc-400 dark:text-gray-600 text-center py-12 tracking-wider uppercase text-[10px]">Ready to process...</div>
       ) : (
         <div className="space-y-0.5">
           {logs.map((log) => (
-            <div key={log.id} className="text-green-400 opacity-90 hover:opacity-100 transition-opacity">
+            <div key={log.id} className="text-emerald-900 dark:text-green-400 opacity-90 hover:opacity-100 transition-opacity">
               $ {log.message}
             </div>
           ))}

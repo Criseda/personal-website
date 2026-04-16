@@ -2,11 +2,8 @@
 
 import { motion } from "framer-motion";
 import { GithubIcon, LinkedinIcon, SpotifyIcon } from "@/components/BrandIcons";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 export function HomeContent() {
-  const { t } = useLanguage();
-
   return (
     <motion.div
       initial={{ opacity: 0.0, y: 40 }}
@@ -22,7 +19,7 @@ export function HomeContent() {
         Laurențiu Cristian Preda
       </h1>
       <h2 className="font-extralight text-base md:text-4xl dark:text-neutral-200 py-4">
-        {t('role')}
+        University of Manchester Undergraduate
       </h2>
       <div className="flex justify-center space-x-20">
         <GithubIcon />

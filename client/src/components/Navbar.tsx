@@ -1,6 +1,5 @@
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { MyAvatar } from "@/components/MyAvatar";
-import { LanguageSelector } from "@/components/LanguageSelector";
 import { Link } from "react-router-dom";
 import { Menu } from "lucide-react";
 import {
@@ -21,19 +20,18 @@ export function Navbar() {
           <MyAvatar />
         </figure>
         <div className="hidden lg:flex">
-          <h1 className="text-base font-semibold text-white dark:text-white">Laurențiu Cristian Preda</h1>
+          <h1 className="text-base font-semibold text-zinc-900 dark:text-white">Laurențiu Cristian Preda</h1>
         </div>
       </Link>
       <div className="absolute left-1/2 transform -translate-x-1/2">
-        <nav className="flex gap-6 text-sm font-medium text-white dark:text-white">
-          <Link to="/" className="hover:text-purple-400 dark:hover:text-purple-300 transition-colors">Home</Link>
-          <Link to="/projects" className="hover:text-purple-400 dark:hover:text-purple-300 transition-colors">Projects</Link>
+        <nav className="flex gap-6 text-sm font-medium text-zinc-800 dark:text-white">
+          <Link to="/" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">Home</Link>
+          <Link to="/projects" className="hover:text-purple-600 dark:hover:text-purple-300 transition-colors">Projects</Link>
         </nav>
       </div>
-      
+
       {/* Desktop menu */}
       <div className="hidden md:flex items-center gap-2 md:gap-4 flex-shrink-0">
-        <LanguageSelector />
         <DarkModeToggle />
       </div>
 
@@ -41,17 +39,11 @@ export function Navbar() {
       <div className="md:hidden flex-shrink-0">
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuTrigger asChild>
-            <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-              <Menu className="w-5 h-5 text-white" />
+            <button className="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors">
+              <Menu className="w-5 h-5 text-zinc-900 dark:text-white" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem asChild>
-              <div className="flex items-center justify-between w-full px-2 py-2">
-                <span className="text-sm">Language</span>
-                <LanguageSelector />
-              </div>
-            </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <div className="flex items-center justify-between w-full px-2 py-2">
                 <span className="text-sm">Theme</span>
