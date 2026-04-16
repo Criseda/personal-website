@@ -46,15 +46,25 @@ const LofiConsole: React.FC = () => {
         ) : (
           /* Control Panel - Normal layout when not generating */
           <div className="flex-1 flex flex-col items-center justify-center w-full relative z-10 pt-4">
-            <div className="w-full max-w-7xl mx-auto px-4 md:px-6 mb-4">
+            <div className="w-full max-w-7xl mx-auto px-4 md:px-6 mb-4 flex items-center gap-6">
               <a
                 href="/projects"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors group"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-500 dark:text-gray-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors group"
               >
-                <div className="w-8 h-8 rounded-full bg-white/40 dark:bg-black/40 backdrop-blur border border-zinc-200 dark:border-gray-800 flex items-center justify-center group-hover:border-purple-500/50 transition-all">
+                <div className="w-8 h-8 rounded-full bg-white/40 dark:bg-black/40 backdrop-blur border border-zinc-200 dark:border-gray-800 flex items-center justify-center group-hover:border-cyan-500/50 transition-all">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 </div>
                 <span>Back to Projects</span>
+              </a>
+
+              <a
+                href="/projects/lofi-station/survey"
+                className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full text-sm font-bold hover:shadow-lg hover:shadow-purple-500/40 transition-all active:scale-95 group"
+              >
+                <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 002-2h2a2 2 0 002 2m-6 9l2 2 4-4" />
+                </svg>
+                Fill out evaluation survey
               </a>
             </div>
 

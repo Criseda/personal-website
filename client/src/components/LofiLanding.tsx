@@ -189,25 +189,37 @@ const LofiLanding: React.FC = () => {
               duration: 0.8,
               ease: 'easeInOut',
             }}
-            className="mt-8"
+            className="flex flex-col items-center gap-6 z-10 w-full max-w-sm px-4"
           >
-            <div ref={googleButtonRef} />
-          </motion.div>
+            <div ref={googleButtonRef} className="min-h-[40px] flex justify-center w-full" />
 
-          {/* Error Message */}
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.3,
-                ease: 'easeInOut',
-              }}
-              className="text-red-400 text-center text-sm mt-4"
+            <div className="w-full flex items-center gap-4">
+              <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
+              <span className="text-zinc-400 text-xs font-medium uppercase tracking-wider">or</span>
+              <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
+            </div>
+
+            <a
+              href="/projects/lofi-station/survey"
+              className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white border border-zinc-200 dark:border-zinc-800 rounded-xl font-semibold hover:border-purple-500/50 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-all shadow-sm group"
             >
-              Error: {error}
-            </motion.div>
-          )}
+              <svg className="w-5 h-5 text-purple-500 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 002-2h2a2 2 0 002 2m-6 9l2 2 4-4" />
+              </svg>
+              Fill out evaluation survey
+            </a>
+
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-red-400 text-center text-sm mt-4 font-medium"
+              >
+                Error: {error}
+              </motion.div>
+            )}
+          </motion.div>
         </motion.div>
       </div>
       <LofiFooter />
