@@ -3,21 +3,23 @@ import { cn } from "@/lib/utils";
 import React, { ReactNode } from "react";
 
 interface AuroraBackgroundProps extends React.HTMLProps<HTMLDivElement> {
-  children: ReactNode;
+  children?: ReactNode;
   showRadialGradient?: boolean;
+  fixed?: boolean;
 }
 
 export const AuroraBackground = ({
   className,
   children,
   showRadialGradient = true,
+  fixed = false,
   ...props
 }: AuroraBackgroundProps) => {
   return (
-    <main>
+    <main className={cn("w-full transition-colors duration-300", fixed && "fixed inset-0 z-0")}>
       <div
         className={cn(
-          "relative flex flex-col  h-[100vh] items-center justify-center bg-zinc-50 dark:bg-zinc-900  text-slate-950 transition-bg",
+          "relative flex flex-col w-full min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-900 text-slate-950 transition-bg",
           className
         )}
         {...props}
@@ -44,7 +46,7 @@ export const AuroraBackground = ({
             will-change-transform will-change-opacity
             transform-gpu translate-z-0`,
               showRadialGradient &&
-                `[mask-image:radial-gradient(ellipse_at_100%_0%,black_5%,var(--transparent)_50%)]`
+              `[mask-image:radial-gradient(ellipse_at_100%_0%,black_5%,var(--transparent)_50%)]`
             )}
           ></div>
         </div>
