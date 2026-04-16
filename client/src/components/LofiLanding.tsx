@@ -10,16 +10,12 @@ interface GoogleAccountsId {
     client_id: string;
     callback: (response: GoogleAuthResponse) => void;
     auto_select?: boolean;
+    use_fedcm_for_prompt?: boolean;
+    itp_support?: boolean;
   }) => void;
-  prompt: (callback: (notification: GoogleNotification) => void) => void;
+  prompt: (callback?: (notification: any) => void) => void;
   cancel: () => void;
   renderButton: (parent: HTMLElement, options: any) => void;
-}
-
-interface GoogleNotification {
-  isNotDisplayed: () => boolean;
-  isSkippedMoment: () => boolean;
-  isDismissedMoment: () => boolean;
 }
 
 interface GoogleAuthResponse {
@@ -36,12 +32,13 @@ declare global {
   }
 }
 
-// Global flag to track if initialization has happened at least once on the window object
 let firstTimeInitialization = true;
 
 const LofiLanding: React.FC = () => {
   const { login, error, isAuthenticated } = useAuth();
   const googleButtonRef = React.useRef<HTMLDivElement>(null);
+
+  const hasInitializedRef = React.useRef(false);
 
   const handleGoogleLogin = useCallback(async (response: GoogleAuthResponse) => {
     try {
@@ -49,7 +46,14 @@ const LofiLanding: React.FC = () => {
       if (credential) {
         console.log('Received Google credential');
         await login(credential);
-        // Explicitly cancel prompt after successful login
+
+        // Handle post-login redirection if any
+        const pendingRedirect = localStorage.getItem('pending_lofi_redirect');
+        if (pendingRedirect) {
+          localStorage.removeItem('pending_lofi_redirect');
+          window.location.href = pendingRedirect;
+        }
+
         window.google?.accounts?.id?.cancel();
       }
     } catch (err) {
@@ -57,58 +61,39 @@ const LofiLanding: React.FC = () => {
     }
   }, [login]);
 
-  // Load Google Sign-In script and initialize
   React.useEffect(() => {
     let script = document.querySelector('script[src="https://accounts.google.com/gsi/client"]') as HTMLScriptElement;
-    let promptTimer: NodeJS.Timeout | null = null;
 
     const initializeGoogle = () => {
-      console.log('initializeGoogle called. Auth:', isAuthenticated);
-
       const gId = window.google?.accounts?.id;
-      if (!gId) return;
+      if (!gId || hasInitializedRef.current) return;
 
-      // Always initialize to ensure the callback is fresh and points to this component instance
-      // Google GSI is generally okay with re-initialization on the same page for SPAs
+      hasInitializedRef.current = true;
+
+      // Modernized GSI initialization with FedCM support
       gId.initialize({
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID || '',
         callback: handleGoogleLogin,
         auto_select: false,
+        use_fedcm_for_prompt: true,
+        itp_support: true
       });
 
       if (firstTimeInitialization) {
-        console.log('Google SDK initialized');
+        console.log('Google SDK initialized (FedCM enabled)');
         firstTimeInitialization = false;
       }
 
-      // Render the Google Sign-In button
       if (googleButtonRef.current) {
         gId.renderButton(googleButtonRef.current, {
           theme: 'outline',
           size: 'large',
           text: 'signin_with',
         });
-        console.log('Google Sign-In button rendered');
-      }
-
-      // DELAYED PROMPT: Wait for 1.5s to ensure session restoration has finished
-      if (!isAuthenticated) {
-        promptTimer = setTimeout(() => {
-          if (!isAuthenticated) {
-            console.log('Triggering Google One Tap prompt...');
-            window.google?.accounts?.id?.prompt((notification) => {
-              console.log('Google prompt notification:', notification);
-              if (notification.isNotDisplayed() || notification.isSkippedMoment() || notification.isDismissedMoment()) {
-                console.log('Google prompt was not displayed, skipped, or dismissed');
-              }
-            });
-          }
-        }, 1500);
       }
     };
 
     if (!script) {
-      console.log('Creating Google GSI script...');
       script = document.createElement('script');
       script.src = 'https://accounts.google.com/gsi/client';
       script.async = true;
@@ -120,10 +105,8 @@ const LofiLanding: React.FC = () => {
     }
 
     return () => {
-      if (promptTimer) {
-        clearTimeout(promptTimer);
-      }
       window.google?.accounts?.id?.cancel();
+      hasInitializedRef.current = false;
     };
   }, [isAuthenticated, handleGoogleLogin]);
 
@@ -146,7 +129,6 @@ const LofiLanding: React.FC = () => {
           }}
           className="flex flex-col items-center justify-center gap-8"
         >
-          {/* Title */}
           <motion.h1
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -161,7 +143,6 @@ const LofiLanding: React.FC = () => {
             Lofi Station
           </motion.h1>
 
-          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -180,7 +161,6 @@ const LofiLanding: React.FC = () => {
             </span>
           </motion.p>
 
-          {/* Google Sign-In Button */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -208,6 +188,12 @@ const LofiLanding: React.FC = () => {
               </svg>
               Fill out evaluation survey
             </a>
+
+            {!isAuthenticated && (
+              <p className="text-zinc-500 dark:text-zinc-500 text-sm font-medium">
+                Note: You must sign in with Google first to take the survey.
+              </p>
+            )}
 
             {error && (
               <motion.div

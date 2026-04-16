@@ -27,7 +27,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         setIsLoading(true);
         const storedToken = Cookies.get(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY);
-        
+
         if (storedToken) {
           // Verify token is still valid
           await api.verifyToken();
@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setIsLoading(true);
       setError(null);
       const response = await api.login(googleToken);
-      const jwtToken = response.jwt || response.token;
+      const jwtToken = response.jwt || response.token || response.access_token;
       if (jwtToken) {
         setToken(jwtToken);
       } else {
