@@ -21,7 +21,7 @@ interface RatingScores {
 }
 
 const LofiSurvey: React.FC = () => {
-    const { isAuthenticated, isLoading: authLoading, restoreToken } = useAuth();
+    const { token, isAuthenticated, isLoading: authLoading, restoreToken } = useAuth();
 
     const [isSurveyLoading, setIsSurveyLoading] = useState(true);
     const [hasCompleted, setHasCompleted] = useState(false);
@@ -29,9 +29,16 @@ const LofiSurvey: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const [unratedTrackIds, setUnratedTrackIds] = useState<string[]>([]);
+    const [hasAcceptedConsent, setHasAcceptedConsent] = useState(false);
+    const [consentChecked, setConsentChecked] = useState(false);
 
     // Refs for each track to enable scrolling
     const trackRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+    const consentStorageKey = useMemo(() => {
+        if (!token) return null;
+        return `lofi_survey_consent_${token.slice(-16)}`;
+    }, [token]);
 
     // Randomize tracks exactly once on component mount
     const shuffledTracks = useMemo(() => {
@@ -58,6 +65,9 @@ const LofiSurvey: React.FC = () => {
                 try {
                     const status = await api.getSurveyStatus();
                     setHasCompleted(status.has_completed);
+                    if (status.has_completed) {
+                        setHasAcceptedConsent(true);
+                    }
                 } catch (err: any) {
                     setError(err.message || 'Failed to determine survey status');
                 } finally {
@@ -70,6 +80,24 @@ const LofiSurvey: React.FC = () => {
 
         fetchStatus();
     }, [isAuthenticated, authLoading]);
+
+    useEffect(() => {
+        if (!isAuthenticated || !consentStorageKey || hasCompleted) return;
+        const stored = localStorage.getItem(consentStorageKey);
+        if (stored === 'accepted') {
+            setHasAcceptedConsent(true);
+            setConsentChecked(true);
+        }
+    }, [isAuthenticated, consentStorageKey, hasCompleted]);
+
+    const handleAcceptConsent = () => {
+        if (!consentChecked) return;
+        setHasAcceptedConsent(true);
+        if (consentStorageKey) {
+            localStorage.setItem(consentStorageKey, 'accepted');
+        }
+        window.scrollTo(0, 0);
+    };
 
     // Handle slide changes
     const handleRatingChange = (trackName: string, field: keyof RatingScores, value: number) => {
@@ -207,6 +235,69 @@ const LofiSurvey: React.FC = () => {
                     <div className="text-red-600 dark:text-red-400 bg-red-100/50 dark:bg-red-950/50 p-6 rounded-lg border border-red-500/30">
                         <h2>Error fetching survey status.</h2>
                         <p>{error}</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!hasAcceptedConsent) {
+        return (
+            <div className="w-full min-h-screen relative">
+                <AuroraBackground fixed />
+                <div className="w-full min-h-screen text-zinc-900 dark:text-white relative z-10 transition-colors duration-300 flex flex-col">
+                    <div className="w-full sticky top-0 z-50 border-b border-purple-500/20 dark:border-purple-500/40 backdrop-blur-md bg-white/40 dark:bg-black/40">
+                        <div className="px-4 md:px-6 py-4 flex items-center justify-between">
+                            <div className="flex-1">
+                                <Navbar />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="relative z-10 max-w-3xl w-full mx-auto py-12 px-4 md:px-8 flex-1 flex items-center">
+                        <div className="w-full bg-white/40 dark:bg-black/40 backdrop-blur border border-purple-500/20 dark:border-purple-500/30 rounded-xl p-6 md:p-8 space-y-8 shadow-[0_0_15px_rgba(168,85,247,0.1)] dark:shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                            <div className="space-y-3">
+                                <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-violet-600 to-purple-600 dark:from-violet-400 dark:to-purple-400 bg-clip-text text-transparent">
+                                    Consent and Study Instructions
+                                </h1>
+                                <p className="text-gray-700 dark:text-gray-300">
+                                    You are participating in a listening study where you will evaluate computer-generated music against human-made music.
+                                </p>
+                            </div>
+
+                            <div className="space-y-4 text-gray-700 dark:text-gray-300">
+                                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Before You Begin</h2>
+                                <ul className="list-disc pl-5 space-y-2">
+                                    <li>Use headphones whenever possible. Low-quality mobile speakers can mask micro-timing detail and bass synthesis characteristics that are important for this study.</li>
+                                    <li>Rate based on what you hear, not what you expect.</li>
+                                </ul>
+                            </div>
+
+                            <div className="space-y-3">
+                                <label className="flex items-start gap-3 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={consentChecked}
+                                        onChange={(e) => setConsentChecked(e.target.checked)}
+                                        className="mt-1 h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500"
+                                    />
+                                    <span className="text-sm md:text-base text-gray-800 dark:text-gray-200">
+                                        I understand the purpose of this study, agree to participate, and confirm I have read the listening instructions, Privacy Policy, and Terms of Service.
+                                    </span>
+                                </label>
+
+                                <button
+                                    onClick={handleAcceptConsent}
+                                    disabled={!consentChecked}
+                                    className={`w-full py-3 text-base md:text-lg font-semibold rounded-lg transition-all text-white ${consentChecked
+                                        ? 'bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 shadow-lg shadow-purple-900/20 dark:shadow-purple-900/50'
+                                        : 'bg-purple-600/50 cursor-not-allowed opacity-75'
+                                        }`}
+                                >
+                                    Continue to Survey
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
